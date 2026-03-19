@@ -8,7 +8,7 @@ const firebaseConfig = {
   authDomain: "omnishop-66d18.firebaseapp.com",
   projectId: "omnishop-66d18",
   messagingSenderId: "33212048795",
-  appId: "1:33212048795:web:ae42691c53e188fadded3e"
+  appId: "1:33212048795:web:ae42691c53e188fadded3e",
   storageBucket: "omnishop-66d18.firebasestorage.app"
  
 };
