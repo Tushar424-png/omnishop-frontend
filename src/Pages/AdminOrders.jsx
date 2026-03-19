@@ -19,7 +19,7 @@ export default function AdminOrders() {
   };
 
   fetchOrders();
-}, [token]); // Add token here since the effect depends on it
+}, [token, BASE_URL]); // Add token here since the effect depends on it
 
   return (
     <div className="p-4">
