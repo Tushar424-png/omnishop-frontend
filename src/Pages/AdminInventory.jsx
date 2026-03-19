@@ -7,23 +7,22 @@ export default function AdminInventory() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // Define the function INSIDE the effect to satisfy the dependency rules
-    const fetchInventory = async () => {
-      try {
-        const res = await axios.get(
-          `${BASE_URL}/Inventory/getall`,
-          {
-            headers: { Authorization: `Bearer ${token}` }
-          }
-        );
-        setData(res.data);
-      } catch (err) {
-        console.error("Error fetching inventory:", err);
-      }
-    };
+  const fetchInventory = async () => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/Inventory/getall`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+      setData(res.data);
+    } catch (err) {
+      console.error("Error fetching inventory:", err);
+    }
+  };
 
-    fetchInventory();
-  }, [token]); // Adding token as a dependency is safer if it ever changes
+  fetchInventory();
+}, [token, BASE_URL]); // ✅ add BASE_URL here // Adding token as a dependency is safer if it ever changes
 
   return (
     <div className="p-4">
