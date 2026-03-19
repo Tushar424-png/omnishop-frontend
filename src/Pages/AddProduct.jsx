@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function AddProduct() {
-
+  const BASE_URL = process.env.REACT_APP_API_URL;
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -26,7 +26,7 @@ export default function AddProduct() {
 
     try {
       await axios.post(
-        "http://localhost:8080/products/add",
+        `${BASE_URL}/products/add`,
         formData,
         {
           headers: {

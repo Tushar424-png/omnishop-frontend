@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Register() {
-
+  const BASE_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -25,7 +25,7 @@ export default function Register() {
 
     try {
       await axios.post(
-        "http://localhost:8080/user/register",
+        `${BASE_URL}/user/register`,
         form
       );
 

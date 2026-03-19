@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { setupNotifications } from "../notificationService";
+import { setupNotifications, listenForegroundMessages } from "../notificationService";
 
 export default function Login() {
-
+ const BASE_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -24,7 +24,7 @@ export default function Login() {
 
     try {
       const res = await axios.post(
-        "http://localhost:8080/user/login",
+        `${BASE_URL}/user/login`,
         form
       );
 
@@ -37,6 +37,7 @@ export default function Login() {
 
       // 🔥 Call notification setup (DO NOT use await)
       await setupNotifications();
+      listenForegroundMessages();
 
       alert("Login Successful");
 

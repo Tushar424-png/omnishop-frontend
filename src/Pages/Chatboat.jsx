@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 export const Chatboat = () => {
-
+ const BASE_URL = process.env.REACT_APP_API_URL;
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
     { sender: "bot", text: "Hello 👋 Main aapka AI Shopping Assistant hoon!" }
@@ -29,7 +29,7 @@ export const Chatboat = () => {
     try {
 
       const response = await axios.post(
-        "http://localhost:8080/api/gemini/ask",
+        `${BASE_URL}/api/gemini/ask`,
         { prompt: userMessage.text }
       );
 

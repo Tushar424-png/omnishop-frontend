@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function AdminOrders() {
-
+ const BASE_URL = process.env.REACT_APP_API_URL;
   const [orders, setOrders] = useState([]);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/order/getall", {
+      const res = await axios.get(`${BASE_URL}/order/getall`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setOrders(res.data);

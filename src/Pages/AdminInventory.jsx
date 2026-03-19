@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function AdminInventory() {
+  const BASE_URL = process.env.REACT_APP_API_URL;
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
 
@@ -10,7 +11,7 @@ export default function AdminInventory() {
     const fetchInventory = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8080/Inventory/getall",
+          `${BASE_URL}/Inventory/getall`,
           {
             headers: { Authorization: `Bearer ${token}` }
           }

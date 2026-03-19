@@ -142,7 +142,7 @@ export default function CartPage() {
 
       // ✅ STEP 3 — OPEN PAYMENT
       const options = {
-        key: "rzp_test_SGG7ggI4w1ykYi",
+        key: process.env.REACT_APP_RAZORPAY_KEY,
         amount: Math.round(totalAmount * 100),
         currency: "INR",
         name: "Your Ecommerce",

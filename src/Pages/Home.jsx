@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 
 export default function Home() {
-
+  const BASE_URL = process.env.REACT_APP_API_URL;
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
-    fetch("http://localhost:8080/products/getall")
+    fetch(`${BASE_URL}/products/getall`)
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.log(err));

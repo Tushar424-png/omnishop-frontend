@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function Restock() {
-
+  const BASE_URL = process.env.REACT_APP_API_URL;
   const [productId, setProductId] = useState("");
   const [quantity, setQuantity] = useState("");
   const token = localStorage.getItem("token");
@@ -12,7 +12,7 @@ export default function Restock() {
 
     try {
       await axios.put(
-        "http://localhost:8080/Inventory/Restock",
+        `${BASE_URL}/Inventory/Restock`,
         {
           productId: Number(productId),
           quantity: Number(quantity)

@@ -3,20 +3,21 @@ import { messaging } from "./firebase";
 import axios from "axios";
 
 export const setupNotifications = async () => {
+  const BASE_URL = process.env.REACT_APP_API_URL;
   console.log("call");
   try {
     const permission = await Notification.requestPermission();
     if (permission !== "granted") return;
 
     const token = await getToken(messaging, {
-      vapidKey: "BDUicFN8otrvLZgiovPdABJlG9CtbBqjDOxbka3BXnN8X2cHTPx1Sj0Xir2R9X3Hz_U4iO_RZrC68EPi-TxZkW4"
+      vapidKey: process.env.REACT_APP_VAPID_KEY
     });
 
     if (token) {
       console.log("FCM Token:", token);
 
       await axios.post(
-        "http://localhost:8080/user/save-token",
+        `${BASE_URL}/user/save-token`,
         { token },
         {
           headers: {
@@ -25,7 +26,7 @@ export const setupNotifications = async () => {
         }
       );
       await axios.post(
-    "http://localhost:8080/user/subscribe", 
+    `${BASE_URL}/user/subscribe`, 
     { token },
     { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
   );
