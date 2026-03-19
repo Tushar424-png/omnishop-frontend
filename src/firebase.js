@@ -1,18 +1,18 @@
-importScripts("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js");
+// src/firebase.js
 
-firebase.initializeApp({
+import { initializeApp } from "firebase/app";
+import { getMessaging } from "firebase/messaging";
+
+const firebaseConfig = {
   apiKey: "AIzaSyC6-RtO6zU4MXl-EbqzEo3DJz7-_jU0zVQ",
   authDomain: "omnishop-66d18.firebaseapp.com",
   projectId: "omnishop-66d18",
   messagingSenderId: "33212048795",
   appId: "1:33212048795:web:ae42691c53e188fadded3e"
-});
+  storageBucket: "omnishop-66d18.firebasestorage.app"
+ 
+};
 
-const messaging = firebase.messaging();
+const app = initializeApp(firebaseConfig);
 
-messaging.onBackgroundMessage(function(payload) {
-  self.registration.showNotification(payload.notification.title, {
-    body: payload.notification.body
-  });
-});
+export const messaging = getMessaging(app);
