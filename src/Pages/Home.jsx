@@ -12,7 +12,7 @@ export default function Home() {
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.log(err));
-  }, []);
+  }, [BASE_URL]);
 
   // ✅ Get Unique Categories
   const categories = ["All", ...new Set(products.map(p => p.category))];
