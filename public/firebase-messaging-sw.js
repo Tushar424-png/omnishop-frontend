@@ -2,12 +2,11 @@ importScripts("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js
 importScripts("https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js");
 
 firebase.initializeApp({
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
-
+  apiKey: "AIzaSyC6-RtO6zU4MXl-EbqzEo3DJz7-_jU0zVQ",
+  authDomain: "omnishop-66d18.firebaseapp.com",
+  projectId: "omnishop-66d18",
+  messagingSenderId: "33212048795",
+  appId: "1:33212048795:web:ae42691c53e188fadded3e"
 });
 
 const messaging = firebase.messaging();
