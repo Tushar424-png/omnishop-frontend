@@ -19,41 +19,40 @@ import AdminNavbar from "./Components/AdminNavbar";
 
 function App() {
   const [isVerifying, setIsVerifying] = useState(true);
-  const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
   useEffect(() => {
     listenForegroundMessages();
     
-    // Ek chota sa delay check taaki localStorage sync ho jaye
-    const checkAuth = () => {
+    // Netlify/Production environment mein storage sync ke liye delay zaroori hai
+    const timer = setTimeout(() => {
       setIsVerifying(false);
-    };
-    
-    checkAuth();
-  }, [token]); // Token change hone par re-run hoga
+    }, 800); // 800ms ka buffer taaki token settle ho jaye
 
-  // 🔐 Protected Route Component (UPDATED LOGIC)
+    return () => clearTimeout(timer);
+  }, []);
+
+  // 🔐 Protected Route Component (NETLIFY OPTIMIZED)
   const ProtectedRoute = ({ children, allowedRole }) => {
-    const currentToken = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const currentRole = localStorage.getItem("role");
 
-    // 1. Agar abhi state verify ho rahi hai, toh loading dikhao
+    // Jab tak check chal raha hai, tab tak sirf loading dikhao
     if (isVerifying) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh]">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-yellow-400"></div>
-          <p className="mt-4 text-gray-600 font-medium">Authenticating...</p>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+          <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4 text-gray-500 font-medium">Checking session...</p>
         </div>
       );
     }
 
-    // 2. Agar verifying khatam ho gayi aur phir bhi token nahi mila, tab login bhejo
-    if (!currentToken) {
+    // Ab agar token nahi mila, toh hi login pe bhejo
+    if (!token) {
       return <Navigate to="/login" replace />;
     }
 
-    // 3. Role check
+    // Role validation
     if (allowedRole && currentRole !== allowedRole) {
       return <Navigate to="/" replace />;
     }
@@ -134,6 +133,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Fallback for 404/Unknown routes */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
