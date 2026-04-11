@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { listenForegroundMessages } from "./notificationService";
 
 import Home from "./Pages/Home";
@@ -18,23 +18,44 @@ import UserNavbar from "./Components/UserNavbar";
 import AdminNavbar from "./Components/AdminNavbar";
 
 function App() {
-
+  const [isVerifying, setIsVerifying] = useState(true);
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
-  // 🔥 ADD THIS
   useEffect(() => {
     listenForegroundMessages();
-  }, []);
+    
+    // Ek chota sa delay check taaki localStorage sync ho jaye
+    const checkAuth = () => {
+      setIsVerifying(false);
+    };
+    
+    checkAuth();
+  }, [token]); // Token change hone par re-run hoga
 
-  // 🔐 Protected Route Component
+  // 🔐 Protected Route Component (UPDATED LOGIC)
   const ProtectedRoute = ({ children, allowedRole }) => {
-    if (!token) {
-      return <Navigate to="/login" />;
+    const currentToken = localStorage.getItem("token");
+    const currentRole = localStorage.getItem("role");
+
+    // 1. Agar abhi state verify ho rahi hai, toh loading dikhao
+    if (isVerifying) {
+      return (
+        <div className="flex flex-col items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-yellow-400"></div>
+          <p className="mt-4 text-gray-600 font-medium">Authenticating...</p>
+        </div>
+      );
     }
 
-    if (allowedRole && role !== allowedRole) {
-      return <Navigate to="/" />;
+    // 2. Agar verifying khatam ho gayi aur phir bhi token nahi mila, tab login bhejo
+    if (!currentToken) {
+      return <Navigate to="/login" replace />;
+    }
+
+    // 3. Role check
+    if (allowedRole && currentRole !== allowedRole) {
+      return <Navigate to="/" replace />;
     }
 
     return children;
@@ -42,11 +63,9 @@ function App() {
 
   return (
     <BrowserRouter>
-
       {role === "ADMIN" ? <AdminNavbar /> : <UserNavbar />}
 
       <Routes>
-
         <Route 
           path="/" 
           element={
@@ -115,9 +134,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-
       </Routes>
-
     </BrowserRouter>
   );
 }
